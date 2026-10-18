@@ -1,0 +1,93 @@
+﻿
+@model DotNet_Practical_07.Models.Feedback
+
+@{
+    ViewBag.Title = "Feedback Management";
+}
+
+<h2>Feedback Management</h2>
+
+@using (Html.BeginForm("Index", "Feedback", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.LabelFor(m => m.Name)
+        <br />
+        @Html.TextBoxFor(m => m.Name)
+        <br />
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(m => m.Id)
+        <br />
+        @Html.TextBoxFor(m => m.Id)
+        <br />
+        @Html.ValidationMessageFor(m => m.Id)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(m => m.Branch)
+        <br />
+        @Html.DropDownListFor(
+            m => m.Branch,
+            new SelectList(new[]
+            {
+                "Computer Engineering",
+                "Information Technology",
+                "CSE",
+                "Other"
+            }),
+            "Select Branch"
+        )
+        <br />
+        @Html.ValidationMessageFor(m => m.Branch)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(m => m.Date)
+        <br />
+        @Html.TextBoxFor(
+            m => m.Date,
+            "{0:dd-MM-yyyy}",
+            new { @readonly = "readonly" }
+        )
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(m => m.Review)
+        <br />
+        @Html.TextAreaFor(
+            m => m.Review,
+            new { rows = 5, cols = 40 }
+        )
+        <br />
+        @Html.ValidationMessageFor(m => m.Review)
+    </div>
+
+    <br />
+
+    <button type="submit">Submit</button>
+}
+
+@if (ViewBag.Submitted == true)
+{
+    <hr />
+
+    <h3>Submitted Review</h3>
+
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>ID:</strong> @Model.Id</p>
+    <p><strong>Branch:</strong> @Model.Branch</p>
+    <p><strong>Date:</strong> @Model.Date.ToString("dd-MM-yyyy")</p>
+    <p><strong>Review:</strong> @Model.Review</p>
+}
